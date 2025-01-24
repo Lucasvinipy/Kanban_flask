@@ -1,0 +1,37 @@
+/* Definindo o espaçamento entre as células da tabela */
+.table td {
+    padding: 10px;
+}
+
+/* Estilizando os cards dentro das células */
+.card {
+    margin-bottom: 20px; /* Espaçamento entre os cards */
+}
+
+/* Ajustando os botões */
+.btn {
+    margin-right: 10px; /* Espaço entre os botões */
+}
+
+/* Se você quiser alinhar os botões no centro */
+.card-body {
+    display: flex;
+    justify-content: space-between; /* Distribui os botões de forma equilibrada */
+    align-items: center;
+}
+
+/* Adicionando espaçamento geral entre as colunas */
+table {
+    margin-top: 20px;
+}
+
+/* Estilizando a tabela para que ela ocupe 100% da largura */
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Ajustando o espaçamento entre os cards */
+.card-body {
+    padding: 15px;
+}

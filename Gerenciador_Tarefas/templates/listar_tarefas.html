@@ -1,0 +1,40 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">INICIAR</th>
+            <th scope="col">INICIADA</th>
+            <th scope="col">FINALIZADA</th>
+        </tr>
+    </thead>
+    <tbody id="lista_tarefa">
+        <tr>
+            <!-- Coluna INICIAR -->
+            <td>
+                {% for tarefa in tarefa %}
+                    {% if tarefa.status == 'INICIAR' %}
+                        {% include 'item_tarefa_iniciar.html' %}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            
+            <!-- Coluna INICIADA -->
+            <td>
+                {% for tarefa in tarefa %}
+                    {% if tarefa.status == 'INICIADA' %}
+                        {% include 'item_tarefa_iniciado.html' %}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            
+            <!-- Coluna FINALIZADA -->
+            <td>
+                {% for tarefa in tarefa %}
+                    {% if tarefa.status == 'FINALIZADA' %}
+                        {% include 'item_tarefa_finalizado.html' %}
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+

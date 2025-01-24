@@ -1,0 +1,33 @@
+<form   class="c-form" 
+        action="{{ url_for('user.inserir_tarefa')}}" 
+        method="POST"  
+        c-apppend = "#lista-tarefa">
+            
+    <div class="mb-3">
+        <label  class="form-label">titulo</label>
+        <input type="text" class="form-control" name="titulo">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">descrição</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descrição"></textarea>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" value="INICIAR">
+            <label class="form-check-label" for="flexRadioDefault1">
+            INICIAR
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" checked value="INICIADA"> 
+            <label class="form-check-label" for="flexRadioDefault2">
+            INICIADA
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" checked value="FINALIZADA">
+            <label class="form-check-label" for="flexRadioDefault2">
+            FINALIZADA
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">adicionar tarefa </button>
+    </div>
+</form> 
