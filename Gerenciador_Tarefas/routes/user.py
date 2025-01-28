@@ -54,14 +54,42 @@ def detalhe_tarefa(tarefa_id):
 
 
 @user_route.route('/<int:tarefa_id>/edit')
-def editar_tarefa(tarefa_id):
-        return render_template('form_edit.html')
+def form_editar_tarefa(tarefa_id):
+
+    tarefa = None
+    for c in TAREFAS:
+        if c['id'] == tarefa_id:   
+            tarefa = c
+
+    return render_template('form_tarefa.html',tarefa = tarefa)
 
 
 @user_route.route('/<int:tarefa_id>/update', methods=['PUT'])
 def atualizar_tarefa(tarefa_id):
-        pass  
+        
+    tarefa_editada = None
+    data=request.json
+    for c in TAREFAS:
+        if c['id'] == tarefa_id:
+            c['titulo'] = data['titulo']
+            c['descrição'] = data['descrição']
+            c['status'] = data['status']
+
+            tarefa_editada = c
+    
+    if c['status'] == 'INICIAR':
+        return render_template('item_tarefa_iniciar.html', tarefa=tarefa_editada)
+    
+    elif c['status'] == 'INICIADA':
+        return render_template('item_tarefa_iniciado.html', tarefa=tarefa_editada)
+    else:
+        return render_template('item_tarefa_finalizado.html', tarefa=tarefa_editada)
+        
 
 @user_route.route('/<int:tarefa_id>/delete', methods=['DELETE'])
 def deletar_tarefa(tarefa_id):
-        pass  
+    global TAREFAS
+
+    TAREFAS = [ c for c in TAREFAS if c ['id'] != tarefa_id]
+
+    return{'deleted' : 'ok'}    

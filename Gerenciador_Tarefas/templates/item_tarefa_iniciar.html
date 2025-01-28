@@ -1,8 +1,8 @@
-<div class="card mb-3">
-    <div class="card-body">
+<div class="card mb-3" id="tarefa-{{tarefa.id}}">
+    <div class="card-body" id="iniciar">
         <h5 class="card-title">{{ tarefa.titulo }}</h5>
         <p class="card-text">{{ tarefa.descrição }}</p>
-        <button type="button" class="btn btn-primary btn-sm">Editar</button>
-        <button type="button" class="btn btn-danger btn-sm">Deletar</button>
+        <button type="button" class="btn btn-primary btn-sm" c-get="{{ url_for('user.form_editar_tarefa',tarefa_id=tarefa.id)}}" c-target="#form-tarefa" >Editar</button>
+        <button type="button" class="btn btn-danger btn-sm" c-delete="{{ url_for('user.deletar_tarefa',tarefa_id=tarefa.id)}}"c-remove-closest="#iniciar">Deletar</button>
     </div>
-</div>
+</div>   

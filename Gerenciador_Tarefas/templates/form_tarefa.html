@@ -1,33 +1,50 @@
-<form   class="c-form" 
+<form class="c-form" 
+      {% if tarefa %}
+        action="{{url_for('user.atualizar_tarefa', tarefa_id=tarefa.id)}}"
+      {% else %}
         action="{{ url_for('user.inserir_tarefa')}}" 
-        method="POST"  
-        c-apppend = "#lista-tarefa">
+      {% endif %}
+
+      method="{% if tarefa %}PUT{% else %}POST{% endif %}"
+      
+
+       {% if cliente %}
+            c-swap="#tarefa-{{tarefa.id}}"
+        {% else %}
+            c-append = "#lista-tarefa"
+        {% endif %}>
             
     <div class="mb-3">
-        <label  class="form-label">titulo</label>
-        <input type="text" class="form-control" name="titulo">
+        <label class="form-label">titulo</label>
+        <input type="text" class="form-control" name="titulo" {% if tarefa %}value="{{tarefa.titulo}}"{% endif %}>
     </div>
+    
     <div class="mb-3">
         <label for="exampleFormControlTextarea1" class="form-label">descrição</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descrição"></textarea>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" value="INICIAR">
-            <label class="form-check-label" for="flexRadioDefault1">
-            INICIAR
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" checked value="INICIADA"> 
-            <label class="form-check-label" for="flexRadioDefault2">
-            INICIADA
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" checked value="FINALIZADA">
-            <label class="form-check-label" for="flexRadioDefault2">
-            FINALIZADA
-            </label>
-        </div>
-        <button type="submit" class="btn btn-primary">adicionar tarefa </button>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="descrição">{% if tarefa %}{{tarefa.descrição}}{% endif %}</textarea>
     </div>
-</form> 
+    
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="flexRadioDefault1" value="INICIAR" {% if tarefa and tarefa.status == 'INICIAR' %}checked{% endif %}>
+        <label class="form-check-label" for="flexRadioDefault1">
+            INICIAR
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="flexRadioDefault2" value="INICIADA" {% if tarefa and tarefa.status == 'INICIADA' %}checked{% endif %}> 
+        <label class="form-check-label" for="flexRadioDefault2">
+            INICIADA
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="status" id="flexRadioDefault3" value="FINALIZADA" {% if tarefa and tarefa.status == 'FINALIZADA' %}checked{% endif %}>
+        <label class="form-check-label" for="flexRadioDefault3">
+            FINALIZADA
+        </label>
+    </div>
+    
+    
+    <button type="submit" class="btn btn-primary">  
+        {% if tarefa %}salvar{% else %}criar{% endif %}
+    </button>
+</form>

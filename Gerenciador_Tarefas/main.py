@@ -9,4 +9,4 @@ app.register_blueprint(home_route)
 app.register_blueprint(user_route , url_prefix='/user')
 
    
-app.run(debug=True)
+app.run(debug=True)      
