@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template , request
-from database.tarefas import TAREFAS
+from database.tarefa import Tarefa , db
 
 user_route = Blueprint('user', __name__)
 
@@ -17,25 +17,28 @@ user_route = Blueprint('user', __name__)
 
 @user_route.route('/')
 def listar_tarefas():
-    return render_template('listar_tarefas.html' , tarefa=TAREFAS)
+    tarefas = Tarefa.query.all()
+    return render_template('listar_tarefas.html' , tarefa=tarefas)
 
 @user_route.route('/' , methods=['POST'])
 def inserir_tarefa():
     data = request.json 
 
-    nova_tarefa = {
-          "id" : len(TAREFAS) + 1 ,
-          "titulo" : data['titulo'],
-          "descrição" : data['descrição'],
-          "status" : data['status'],
-    }
 
-    TAREFAS.append(nova_tarefa)
+    nova_tarefa = Tarefa(
+    titulo=data.get('titulo'),
+    descricao=data.get('descricao'),
+    status=data.get('status', 'INICIAR')  # Define um valor padrão para o status
 
-    if nova_tarefa['status'] == 'INICIAR':
+    )
+
+    db.session.add(nova_tarefa)
+    db.session.commit()
+
+      # Renderiza o template correspondente ao status da tarefa
+    if nova_tarefa.status == 'INICIAR':
         return render_template('item_tarefa_iniciar.html', tarefa=nova_tarefa)
-    
-    elif nova_tarefa['status'] == 'INICIADA':
+    elif nova_tarefa.status == 'INICIADA':
         return render_template('item_tarefa_iniciado.html', tarefa=nova_tarefa)
     else:
         return render_template('item_tarefa_finalizado.html', tarefa=nova_tarefa)
@@ -56,31 +59,25 @@ def detalhe_tarefa(tarefa_id):
 @user_route.route('/<int:tarefa_id>/edit')
 def form_editar_tarefa(tarefa_id):
 
-    tarefa = None
-    for c in TAREFAS:
-        if c['id'] == tarefa_id:   
-            tarefa = c
-
+    tarefa = Tarefa.query.get(tarefa_id)
+    
     return render_template('form_tarefa.html',tarefa = tarefa)
 
 
 @user_route.route('/<int:tarefa_id>/update', methods=['PUT'])
 def atualizar_tarefa(tarefa_id):
-        
-    tarefa_editada = None
-    data=request.json
-    for c in TAREFAS:
-        if c['id'] == tarefa_id:
-            c['titulo'] = data['titulo']
-            c['descrição'] = data['descrição']
-            c['status'] = data['status']
+    data=request.json    
 
-            tarefa_editada = c
-    
-    if c['status'] == 'INICIAR':
+    tarefa_editada = Tarefa.query.get(tarefa_id)
+
+    tarefa_editada.titulo = data.get('titulo', tarefa_editada.titulo)  
+    tarefa_editada.descricao = data.get('descricao', tarefa_editada.descricao)  
+    tarefa_editada.status = data.get('status', tarefa_editada.status) 
+
+    if ['status'] == 'INICIAR':
         return render_template('item_tarefa_iniciar.html', tarefa=tarefa_editada)
     
-    elif c['status'] == 'INICIADA':
+    elif ['status'] == 'INICIADA':
         return render_template('item_tarefa_iniciado.html', tarefa=tarefa_editada)
     else:
         return render_template('item_tarefa_finalizado.html', tarefa=tarefa_editada)
@@ -88,8 +85,10 @@ def atualizar_tarefa(tarefa_id):
 
 @user_route.route('/<int:tarefa_id>/delete', methods=['DELETE'])
 def deletar_tarefa(tarefa_id):
-    global TAREFAS
+    
+    tarefa = Tarefa.query.get(tarefa_id)
 
-    TAREFAS = [ c for c in TAREFAS if c ['id'] != tarefa_id]
+    db.session.delete(tarefa)
+    db.session.commit()
 
-    return{'deleted' : 'ok'}    
+    

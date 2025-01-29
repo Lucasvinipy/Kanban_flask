@@ -1,0 +1,8 @@
+# Ignorar arquivos de configuração com chaves sensíveis
+config.py
+.env
+
+# Ignorar diretórios específicos
+__pycache__/
+database/
+scripts/
