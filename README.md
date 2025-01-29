@@ -16,6 +16,7 @@ Este projeto é um **Gerenciador de Tarefas no estilo Kanban** desenvolvido em *
 - **Flask**: Framework web para gerenciar rotas e renderizar templates.
 - **HTML/CSS**: Estrutura e estilo da interface.
 - **Jinja2**: Templates dinâmicos no Flask.
+- **MySQL**: banco de dados escolhido para teste , poderia ter sido sqlite ja que o projeto é pequeno
 - **JavaScript** (opcional): Para melhorar a experiência do usuário, como atualizações sem recarregar a página.
 
 ## Como Usar
